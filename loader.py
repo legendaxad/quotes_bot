@@ -4,8 +4,7 @@ import os
 from database import Database
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-#
-TOKEN=""
+quote_cache = {}
 bot=TeleBot(BOT_TOKEN)
 db = Database()
 db.create_tables()
