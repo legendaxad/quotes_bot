@@ -2,20 +2,24 @@ import os
 from psycopg2 import pool
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 
 load_dotenv()
 
 
 class Database:
     def __init__(self):
+        database_url = os.getenv("DATABASE_URL")
+        result = urlparse(database_url)
+
         self.connection_pool = pool.SimpleConnectionPool(
-            minconn=1,
-            maxconn=10,
-            host=os.getenv("DB_HOST"),
-            database=os.getenv("DB_NAME"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            port=os.getenv("DB_PORT"),
+            1,
+            10,
+            user=result.username,
+            password=result.password,
+            host=result.hostname,
+            port=result.port,
+            database=result.path[1:]
         )
 
     def execute(
