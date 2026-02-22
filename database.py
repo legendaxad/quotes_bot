@@ -8,8 +8,8 @@ load_dotenv()
 
 
 class Database:
-    class Database:
-        def __init__(self):
+
+    def __init__(self):
             database_url = os.getenv("DATABASE_PUBLIC_URL")
 
             if not database_url:
