@@ -8,19 +8,27 @@ load_dotenv()
 
 
 class Database:
-    def __init__(self):
-        database_url = os.getenv("DATABASE_URL")
-        result = urlparse(database_url)
+    class Database:
+        def __init__(self):
+            database_url = os.getenv("DATABASE_PUBLIC_URL")
 
-        self.connection_pool = pool.SimpleConnectionPool(
-            1,
-            10,
-            user=result.username,
-            password=result.password,
-            host=result.hostname,
-            port=result.port,
-            database=result.path[1:]
-        )
+            if not database_url:
+                raise ValueError("DATABASE_URL is not set")
+
+            result = urlparse(database_url)
+
+            self.connection_pool = pool.SimpleConnectionPool(
+                1,
+                10,
+                user=result.username,
+                password=result.password,
+                host=result.hostname,
+                port=result.port,
+                database=result.path[1:],
+                sslmode="require"  # 🔥 IMPORTANT for Railway
+            )
+
+            print("Database connected successfully")
 
     def execute(
         self,
