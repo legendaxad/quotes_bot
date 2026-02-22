@@ -40,7 +40,7 @@ def quote(message):
 
     bot.send_message(
         message.chat.id,
-        f"{quote_text}\n\n— {author}",
+        f"{quote_text}\n\n— {author}\n\n- for more /quote",
         reply_markup=markup
     )
 @bot.callback_query_handler(func=lambda call: True)
